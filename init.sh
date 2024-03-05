@@ -6,8 +6,7 @@ pbs(){
     # echo -e '[*] spbs   -   Job submission'
 }
 
-# PBShelper_root="$HOME/.PBShelper"
-PBShelper_root="/Users/junbingao/Documents/GitHub/PBShelper"
+PBShelper_root="$HOME/.PBShelper"
 source "${PBShelper_root}/mpbs.sh"
 source "${PBShelper_root}/dpbs.sh"
 source "${PBShelper_root}/cpbs.sh"
