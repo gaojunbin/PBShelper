@@ -206,6 +206,7 @@ cpbs_occupy_nscc_gpu(){
     error_file=$(pwd)/${job_name}.e
 
     INFO=$(pwd)/${job_name}.info
+    ssh_node=$(pwd)/ssh_node
 
     # generate the PBS script
     cat << EOF > ${job_name}.pbs
@@ -220,6 +221,9 @@ cpbs_occupy_nscc_gpu(){
 echo "PBS_JOBID: \$PBS_JOBID" > ${INFO}
 echo "hostname: \$(hostname)" >> ${INFO}
 echo "GPU: \$(nvidia-smi)" >> ${INFO}
+
+echo "PBS_JOBID=\$PBS_JOBID" > ${ssh_node}
+echo "ssh $(hostname)" >> ${ssh_node}
 
 while true
 do
