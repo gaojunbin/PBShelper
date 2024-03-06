@@ -238,6 +238,8 @@ EOF
 #!/bin/bash
 qsub $(pwd)/${job_name}.pbs
 EOF
+    
+    chmod +x ${job_name}.crontab
 
     echo "The PBS script has been generated successfully!"
     echo "The GPU info will be saved in $(pwd)/${job_name}.info"
