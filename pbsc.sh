@@ -5,6 +5,7 @@ pbsc(){
     echo -e '[2] Template - HPC'
     echo -e '[3] Template - NSCC CPU'
     echo -e '[4] Template - NSCC GPU'
+    echo -e '[5] Occupy   - NSCC GPU'
     echo -e 'input your choose (default:1): \c'
     read cpbs_func_num
     if [ -z "${cpbs_func_num}" ];then
@@ -18,6 +19,8 @@ pbsc(){
         cpbs_default_nscc_cpu
     elif [ "${cpbs_func_num}" = 4 ];then
         cpbs_default_nscc_gpu
+    elif [ "${cpbs_func_num}" = 5 ];then
+        cpbs_occupy_nscc_gpu
     else
         echo 'Invalid Input!'
     fi
@@ -183,4 +186,52 @@ module load cuda/12.2.2
 EOF
 
     echo "The PBS script has been generated successfully!"
+}
+
+cpbs_occupy_nscc_gpu(){
+    echo -e 'Specifying number of gpus (default:1): \c'
+    read gpus
+    if [ -z "${gpus}" ];then
+        gpus=1
+    fi
+    job_name="OCCUPY_GPU_x${gpus}"
+    mkdir -p ${job_name}
+    cd ${job_name}
+    queue=normal
+    nodes=1
+    walltime=20:00:00
+    project_number=11003054
+
+    output_file=$(pwd)/${job_name}.o
+    error_file=$(pwd)/${job_name}.e
+
+    # generate the PBS script
+    cat << EOF > ${job_name}.pbs
+#PBS -q ${queue}
+#PBS -l select=${nodes}:ngpus=${gpus}
+#PBS -l walltime=${walltime}
+#PBS -P ${project_number}
+#PBS -N ${job_name}
+#PBS -o ${output_file}
+#PBS -e ${error_file}
+
+INFO=$(pwd)/${job_name}.info
+echo "PBS_JOBID: \$PBS_JOBID" > $INFO
+echo "hostname: \$(hostname)" >> $INFO
+echo "GPU: $(nvidia-smi)" >> $INFO
+
+while true
+do
+    sleep 1
+done
+
+EOF
+
+    echo "The PBS script has been generated successfully!"
+    echo "The GPU info will be saved in $(pwd)/${job_name}.info"
+    echo "You can add crontab to run the task every day before your work."
+    echo "The command is: crontab -e"
+    echo "Add the following line to the end of the file:"
+    echo "0 8 * * * /bin/bash $(pwd)/${job_name}.pbs"
+    
 }
