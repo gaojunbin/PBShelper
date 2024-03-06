@@ -216,9 +216,9 @@ cpbs_occupy_nscc_gpu(){
 #PBS -e ${error_file}
 
 INFO=$(pwd)/${job_name}.info
-echo "PBS_JOBID: \$PBS_JOBID" > $INFO
-echo "hostname: \$(hostname)" >> $INFO
-echo "GPU: $(nvidia-smi)" >> $INFO
+echo "PBS_JOBID: \$PBS_JOBID" > ${INFO}
+echo "hostname: \$(hostname)" >> ${INFO}
+echo "GPU: \$(nvidia-smi)" >> ${INFO}
 
 while true
 do
@@ -232,6 +232,6 @@ EOF
     echo "You can add crontab to run the task every day before your work."
     echo "The command is: crontab -e"
     echo "Add the following line to the end of the file:"
-    echo "0 8 * * * /bin/bash $(pwd)/${job_name}.pbs"
+    echo "0 8 * * * $(pwd)/${job_name}.pbs"
     
 }
