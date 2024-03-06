@@ -234,6 +234,11 @@ done
 
 EOF
 
+    cat << EOF > ${job_name}.crontab
+#!/bin/bash
+qsub $(pwd)/${job_name}.pbs
+EOF
+
     echo "The PBS script has been generated successfully!"
     echo "The GPU info will be saved in $(pwd)/${job_name}.info"
     echo "You can add crontab to run the task every day before your work."
