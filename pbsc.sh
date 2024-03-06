@@ -223,7 +223,9 @@ echo "hostname: \$(hostname)" >> ${INFO}
 echo "GPU: \$(nvidia-smi)" >> ${INFO}
 
 echo "PBS_JOBID=\$PBS_JOBID" > ${ssh_node}
-echo "ssh $(hostname)" >> ${ssh_node}
+echo "ssh \$(hostname)" >> ${ssh_node}
+
+chmod +x ${ssh_node}
 
 while true
 do
