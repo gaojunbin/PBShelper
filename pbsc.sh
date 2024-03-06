@@ -205,6 +205,8 @@ cpbs_occupy_nscc_gpu(){
     output_file=$(pwd)/${job_name}.o
     error_file=$(pwd)/${job_name}.e
 
+    INFO=$(pwd)/${job_name}.info
+
     # generate the PBS script
     cat << EOF > ${job_name}.pbs
 #PBS -q ${queue}
@@ -215,7 +217,6 @@ cpbs_occupy_nscc_gpu(){
 #PBS -o ${output_file}
 #PBS -e ${error_file}
 
-INFO=$(pwd)/${job_name}.info
 echo "PBS_JOBID: \$PBS_JOBID" > ${INFO}
 echo "hostname: \$(hostname)" >> ${INFO}
 echo "GPU: \$(nvidia-smi)" >> ${INFO}
