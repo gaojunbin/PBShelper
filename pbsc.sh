@@ -140,6 +140,9 @@ cpbs_default_nscc_cpu(){
     output_file=$(pwd)/${job_name}.o
     error_file=$(pwd)/${job_name}.e
 
+    INFO=$(pwd)/${job_name}.info
+    ssh_node=$(pwd)/ssh_node
+
     # generate the PBS script
     cat << EOF > ${job_name}.pbs
 #PBS -q ${queue}
@@ -151,7 +154,20 @@ cpbs_default_nscc_cpu(){
 #PBS -e ${error_file}
 
 module load miniforge3/23.10
-module load cuda/12.2.2
+
+echo "PBS_JOBID: \$PBS_JOBID" > ${INFO}
+echo "hostname: \$(hostname)" >> ${INFO}
+
+echo "export PBS_JOBID=\$PBS_JOBID" > ${ssh_node}
+echo "ssh \$(hostname)" >> ${ssh_node}
+
+chmod +x ${ssh_node}
+
+while true
+do
+    sleep 1
+done
+
 EOF
 
     echo "The PBS script has been generated successfully!"
@@ -171,6 +187,9 @@ cpbs_default_nscc_gpu(){
     output_file=$(pwd)/${job_name}.o
     error_file=$(pwd)/${job_name}.e
 
+    INFO=$(pwd)/${job_name}.info
+    ssh_node=$(pwd)/ssh_node
+
     # generate the PBS script
     cat << EOF > ${job_name}.pbs
 #PBS -q ${queue}
@@ -183,6 +202,21 @@ cpbs_default_nscc_gpu(){
 
 module load miniforge3/23.10
 module load cuda/12.2.2
+
+echo "PBS_JOBID: \$PBS_JOBID" > ${INFO}
+echo "hostname: \$(hostname)" >> ${INFO}
+echo "GPU: \$(nvidia-smi)" >> ${INFO}
+
+echo "export PBS_JOBID=\$PBS_JOBID" > ${ssh_node}
+echo "ssh \$(hostname)" >> ${ssh_node}
+
+chmod +x ${ssh_node}
+
+while true
+do
+    sleep 1
+done
+
 EOF
 
     echo "The PBS script has been generated successfully!"
