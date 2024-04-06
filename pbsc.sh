@@ -81,6 +81,11 @@ cpbs_custom(){
     if [ -z "${error_file}" ];then
         error_file=$(pwd)/${job_name}.e
     fi
+
+    INFO=$(pwd)/${job_name}.info
+    ssh_node=$(pwd)/ssh_node
+    delete_all=$(pwd)/delete_all
+
     # generate the PBS script
     cat << EOF > ${job_name}.pbs
 #PBS -q ${queue}
@@ -90,7 +95,28 @@ cpbs_custom(){
 #PBS -N ${job_name}
 #PBS -o ${output_file}
 #PBS -e ${error_file}
+
+echo "PBS_JOBID: \$PBS_JOBID" > ${INFO}
+echo "hostname: \$(hostname)" >> ${INFO}
+
+echo "export PBS_JOBID=\$PBS_JOBID" > ${ssh_node}
+echo "ssh \$(hostname)" >> ${ssh_node}
+
+echo "rm *.e *.o *.info ssh_node" >> ${delete_all}
+
+chmod +x ${ssh_node}
+chmod +x ${delete_all}
+
 EOF
+    echo -e 'Add infinite loop ([y]/n) : \c'
+    read infinite_loop
+    infinite_loop=${infinite_loop:-y}
+    if [ -z "${infinite_loop}" ];then
+        echo "while true
+do
+    sleep 1
+done" >> ${job_name}.pbs
+    fi
     echo -e 'Specifying the command: \c'
     read command
     echo "${command}" >> ${job_name}.pbs
@@ -99,8 +125,9 @@ EOF
 
 
 cpbs_default_hpc(){
-
-    job_name=$(date +%Y%m%d%H%M%S)
+    echo -e 'Specifying a job name (default:$date): \c'
+    read job_name
+    job_name=${job_name:-$(date +%Y%m%d%H%M%S)}
     mkdir -p ${job_name}
     cd ${job_name}
     queue=colo-bliu
@@ -112,6 +139,10 @@ cpbs_default_hpc(){
     output_file=$(pwd)/${job_name}.o
     error_file=$(pwd)/${job_name}.e
 
+    INFO=$(pwd)/${job_name}.info
+    ssh_node=$(pwd)/ssh_node
+    delete_all=$(pwd)/delete_all
+
     # generate the PBS script
     cat << EOF > ${job_name}.pbs
 #PBS -q ${queue}
@@ -120,14 +151,31 @@ cpbs_default_hpc(){
 #PBS -N ${job_name}
 #PBS -o ${output_file}
 #PBS -e ${error_file}
+
+echo "PBS_JOBID: \$PBS_JOBID" > ${INFO}
+echo "hostname: \$(hostname)" >> ${INFO}
+
+echo "export PBS_JOBID=\$PBS_JOBID" > ${ssh_node}
+echo "ssh \$(hostname)" >> ${ssh_node}
+
+echo "rm *.e *.o *.info ssh_node" >> ${delete_all}
+
+chmod +x ${ssh_node}
+chmod +x ${delete_all}
+
+while true
+do
+    sleep 1
+done
 EOF
 
     echo "The PBS script has been generated successfully!"
 }
 
 cpbs_default_nscc_cpu(){
-
-    job_name=$(date +%Y%m%d%H%M%S)
+    echo -e 'Specifying a job name (default:$date): \c'
+    read job_name
+    job_name=${job_name:-$(date +%Y%m%d%H%M%S)}
     mkdir -p ${job_name}
     cd ${job_name}
     queue=normal
@@ -142,6 +190,7 @@ cpbs_default_nscc_cpu(){
 
     INFO=$(pwd)/${job_name}.info
     ssh_node=$(pwd)/ssh_node
+    delete_all=$(pwd)/delete_all
 
     # generate the PBS script
     cat << EOF > ${job_name}.pbs
@@ -161,7 +210,10 @@ echo "hostname: \$(hostname)" >> ${INFO}
 echo "export PBS_JOBID=\$PBS_JOBID" > ${ssh_node}
 echo "ssh \$(hostname)" >> ${ssh_node}
 
+echo "rm *.e *.o *.info ssh_node" >> ${delete_all}
+
 chmod +x ${ssh_node}
+chmod +x ${delete_all}
 
 while true
 do
@@ -175,7 +227,9 @@ EOF
 
 cpbs_default_nscc_gpu(){
 
-    job_name=$(date +%Y%m%d%H%M%S)
+    echo -e 'Specifying a job name (default:$date): \c'
+    read job_name
+    job_name=${job_name:-$(date +%Y%m%d%H%M%S)}
     mkdir -p ${job_name}
     cd ${job_name}
     queue=normal
@@ -189,6 +243,7 @@ cpbs_default_nscc_gpu(){
 
     INFO=$(pwd)/${job_name}.info
     ssh_node=$(pwd)/ssh_node
+    delete_all=$(pwd)/delete_all
 
     # generate the PBS script
     cat << EOF > ${job_name}.pbs
@@ -210,7 +265,10 @@ echo "GPU: \$(nvidia-smi)" >> ${INFO}
 echo "export PBS_JOBID=\$PBS_JOBID" > ${ssh_node}
 echo "ssh \$(hostname)" >> ${ssh_node}
 
+echo "rm *.e *.o *.info ssh_node" >> ${delete_all}
+
 chmod +x ${ssh_node}
+chmod +x ${delete_all}
 
 while true
 do
@@ -241,6 +299,7 @@ cpbs_occupy_nscc_gpu(){
 
     INFO=$(pwd)/${job_name}.info
     ssh_node=$(pwd)/ssh_node
+    delete_all=$(pwd)/delete_all
 
     # generate the PBS script
     cat << EOF > ${job_name}.pbs
@@ -259,7 +318,10 @@ echo "GPU: \$(nvidia-smi)" >> ${INFO}
 echo "export PBS_JOBID=\$PBS_JOBID" > ${ssh_node}
 echo "ssh \$(hostname)" >> ${ssh_node}
 
+echo "rm *.e *.o *.info ssh_node" >> ${delete_all}
+
 chmod +x ${ssh_node}
+chmod +x ${delete_all}
 
 while true
 do
