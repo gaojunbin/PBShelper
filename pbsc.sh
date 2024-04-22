@@ -102,7 +102,7 @@ echo "hostname: \$(hostname)" >> ${INFO}
 echo "export PBS_JOBID=\$PBS_JOBID" > ${ssh_node}
 echo "ssh \$(hostname)" >> ${ssh_node}
 
-echo "rm *.e *.o *.info ssh_node" >> ${delete_all}
+echo "rm *.e *.o *.info ssh_node delete_all" > ${delete_all}
 
 chmod +x ${ssh_node}
 chmod +x ${delete_all}
@@ -158,7 +158,7 @@ echo "hostname: \$(hostname)" >> ${INFO}
 echo "export PBS_JOBID=\$PBS_JOBID" > ${ssh_node}
 echo "ssh \$(hostname)" >> ${ssh_node}
 
-echo "rm *.e *.o *.info ssh_node" >> ${delete_all}
+echo "rm *.e *.o *.info ssh_node delete_all" > ${delete_all}
 
 chmod +x ${ssh_node}
 chmod +x ${delete_all}
@@ -210,7 +210,7 @@ echo "hostname: \$(hostname)" >> ${INFO}
 echo "export PBS_JOBID=\$PBS_JOBID" > ${ssh_node}
 echo "ssh \$(hostname)" >> ${ssh_node}
 
-echo "rm *.e *.o *.info ssh_node" >> ${delete_all}
+echo "rm *.e *.o *.info ssh_node delete_all" > ${delete_all}
 
 chmod +x ${ssh_node}
 chmod +x ${delete_all}
@@ -265,7 +265,7 @@ echo "GPU: \$(nvidia-smi)" >> ${INFO}
 echo "export PBS_JOBID=\$PBS_JOBID" > ${ssh_node}
 echo "ssh \$(hostname)" >> ${ssh_node}
 
-echo "rm *.e *.o *.info ssh_node" >> ${delete_all}
+echo "rm *.e *.o *.info ssh_node delete_all" > ${delete_all}
 
 chmod +x ${ssh_node}
 chmod +x ${delete_all}
@@ -318,7 +318,7 @@ echo "GPU: \$(nvidia-smi)" >> ${INFO}
 echo "export PBS_JOBID=\$PBS_JOBID" > ${ssh_node}
 echo "ssh \$(hostname)" >> ${ssh_node}
 
-echo "rm *.e *.o *.info ssh_node" >> ${delete_all}
+echo "rm *.e *.o *.info ssh_node delete_all" > ${delete_all}
 
 chmod +x ${ssh_node}
 chmod +x ${delete_all}
