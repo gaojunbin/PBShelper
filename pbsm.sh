@@ -16,7 +16,7 @@ pbsm(){
         mpbs_func_num=1
     fi
     if [ "${mpbs_func_num}" = 1 ];then
-        qstat
+        watch -n 0.1 qstat
     elif [ "${mpbs_func_num}" = 2 ];then
         qstat -aw
     elif [ "${mpbs_func_num}" = 3 ];then
