@@ -100,7 +100,7 @@ echo "PBS_JOBID: \$PBS_JOBID" > ${INFO}
 echo "hostname: \$(hostname)" >> ${INFO}
 
 echo "export PBS_JOBID=\$PBS_JOBID" > ${ssh_node}
-echo "ssh \$(hostname)" >> ${ssh_node}
+echo "ssh -R 52698:localhost:52698 \$(hostname)" >> ${ssh_node}
 
 echo "rm *.e *.o *.info ssh_node delete_all" > ${delete_all}
 
@@ -111,7 +111,7 @@ EOF
     echo -e 'Add infinite loop ([y]/n) : \c'
     read infinite_loop
     infinite_loop=${infinite_loop:-y}
-    if [ -z "${infinite_loop}" ];then
+    if [ "${infinite_loop}" = 'y' ];then
         echo "while true
 do
     sleep 1
@@ -156,7 +156,7 @@ echo "PBS_JOBID: \$PBS_JOBID" > ${INFO}
 echo "hostname: \$(hostname)" >> ${INFO}
 
 echo "export PBS_JOBID=\$PBS_JOBID" > ${ssh_node}
-echo "ssh \$(hostname)" >> ${ssh_node}
+echo "ssh -R 52698:localhost:52698 \$(hostname)" >> ${ssh_node}
 
 echo "rm *.e *.o *.info ssh_node delete_all" > ${delete_all}
 
@@ -208,7 +208,7 @@ echo "PBS_JOBID: \$PBS_JOBID" > ${INFO}
 echo "hostname: \$(hostname)" >> ${INFO}
 
 echo "export PBS_JOBID=\$PBS_JOBID" > ${ssh_node}
-echo "ssh \$(hostname)" >> ${ssh_node}
+echo "ssh -R 52698:localhost:52698 \$(hostname)" >> ${ssh_node}
 
 echo "rm *.e *.o *.info ssh_node delete_all" > ${delete_all}
 
@@ -263,7 +263,7 @@ echo "hostname: \$(hostname)" >> ${INFO}
 echo "GPU: \$(nvidia-smi)" >> ${INFO}
 
 echo "export PBS_JOBID=\$PBS_JOBID" > ${ssh_node}
-echo "ssh \$(hostname)" >> ${ssh_node}
+echo "ssh -R 52698:localhost:52698 \$(hostname)" >> ${ssh_node}
 
 echo "rm *.e *.o *.info ssh_node delete_all" > ${delete_all}
 
@@ -316,7 +316,7 @@ echo "hostname: \$(hostname)" >> ${INFO}
 echo "GPU: \$(nvidia-smi)" >> ${INFO}
 
 echo "export PBS_JOBID=\$PBS_JOBID" > ${ssh_node}
-echo "ssh \$(hostname)" >> ${ssh_node}
+echo "ssh -R 52698:localhost:52698 \$(hostname)" >> ${ssh_node}
 
 echo "rm *.e *.o *.info ssh_node delete_all" > ${delete_all}
 
