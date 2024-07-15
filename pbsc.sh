@@ -86,6 +86,12 @@ cpbs_custom(){
     ssh_node=$(pwd)/ssh_node
     delete_all=$(pwd)/delete_all
 
+    if [ -z "$RmatePort" ]; then
+        local ssh_info="ssh \$(hostname)"
+    else
+        local ssh_info="ssh -R ${RmatePort}:localhost:${RmatePort} \$(hostname)"
+    fi
+
     # generate the PBS script
     cat << EOF > ${job_name}.pbs
 #PBS -q ${queue}
@@ -100,7 +106,7 @@ echo "PBS_JOBID: \$PBS_JOBID" > ${INFO}
 echo "hostname: \$(hostname)" >> ${INFO}
 
 echo "export PBS_JOBID=\$PBS_JOBID" > ${ssh_node}
-echo "ssh -R 52698:localhost:52698 \$(hostname)" >> ${ssh_node}
+echo "${ssh_info}" >> ${ssh_node}
 
 echo "rm *.e *.o *.info ssh_node delete_all" > ${delete_all}
 
@@ -143,6 +149,12 @@ cpbs_default_hpc(){
     ssh_node=$(pwd)/ssh_node
     delete_all=$(pwd)/delete_all
 
+    if [ -z "$RmatePort" ]; then
+        local ssh_info="ssh \$(hostname)"
+    else
+        local ssh_info="ssh -R ${RmatePort}:localhost:${RmatePort} \$(hostname)"
+    fi
+
     # generate the PBS script
     cat << EOF > ${job_name}.pbs
 #PBS -q ${queue}
@@ -156,7 +168,7 @@ echo "PBS_JOBID: \$PBS_JOBID" > ${INFO}
 echo "hostname: \$(hostname)" >> ${INFO}
 
 echo "export PBS_JOBID=\$PBS_JOBID" > ${ssh_node}
-echo "ssh -R 52698:localhost:52698 \$(hostname)" >> ${ssh_node}
+echo "${ssh_info}" >> ${ssh_node}
 
 echo "rm *.e *.o *.info ssh_node delete_all" > ${delete_all}
 
@@ -192,6 +204,12 @@ cpbs_default_nscc_cpu(){
     ssh_node=$(pwd)/ssh_node
     delete_all=$(pwd)/delete_all
 
+    if [ -z "$RmatePort" ]; then
+        local ssh_info="ssh \$(hostname)"
+    else
+        local ssh_info="ssh -R ${RmatePort}:localhost:${RmatePort} \$(hostname)"
+    fi
+
     # generate the PBS script
     cat << EOF > ${job_name}.pbs
 #PBS -q ${queue}
@@ -208,7 +226,7 @@ echo "PBS_JOBID: \$PBS_JOBID" > ${INFO}
 echo "hostname: \$(hostname)" >> ${INFO}
 
 echo "export PBS_JOBID=\$PBS_JOBID" > ${ssh_node}
-echo "ssh -R 52698:localhost:52698 \$(hostname)" >> ${ssh_node}
+echo "${ssh_info}" >> ${ssh_node}
 
 echo "rm *.e *.o *.info ssh_node delete_all" > ${delete_all}
 
@@ -245,6 +263,12 @@ cpbs_default_nscc_gpu(){
     ssh_node=$(pwd)/ssh_node
     delete_all=$(pwd)/delete_all
 
+    if [ -z "$RmatePort" ]; then
+        local ssh_info="ssh \$(hostname)"
+    else
+        local ssh_info="ssh -R ${RmatePort}:localhost:${RmatePort} \$(hostname)"
+    fi
+
     # generate the PBS script
     cat << EOF > ${job_name}.pbs
 #PBS -q ${queue}
@@ -263,7 +287,7 @@ echo "hostname: \$(hostname)" >> ${INFO}
 echo "GPU: \$(nvidia-smi)" >> ${INFO}
 
 echo "export PBS_JOBID=\$PBS_JOBID" > ${ssh_node}
-echo "ssh -R 52698:localhost:52698 \$(hostname)" >> ${ssh_node}
+echo "${ssh_info}" >> ${ssh_node}
 
 echo "rm *.e *.o *.info ssh_node delete_all" > ${delete_all}
 
@@ -301,6 +325,12 @@ cpbs_occupy_nscc_gpu(){
     ssh_node=$(pwd)/ssh_node
     delete_all=$(pwd)/delete_all
 
+    if [ -z "$RmatePort" ]; then
+        local ssh_info="ssh \$(hostname)"
+    else
+        local ssh_info="ssh -R ${RmatePort}:localhost:${RmatePort} \$(hostname)"
+    fi
+
     # generate the PBS script
     cat << EOF > ${job_name}.pbs
 #PBS -q ${queue}
@@ -316,7 +346,7 @@ echo "hostname: \$(hostname)" >> ${INFO}
 echo "GPU: \$(nvidia-smi)" >> ${INFO}
 
 echo "export PBS_JOBID=\$PBS_JOBID" > ${ssh_node}
-echo "ssh -R 52698:localhost:52698 \$(hostname)" >> ${ssh_node}
+echo "${ssh_info}" >> ${ssh_node}
 
 echo "rm *.e *.o *.info ssh_node delete_all" > ${delete_all}
 
