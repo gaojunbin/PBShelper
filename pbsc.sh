@@ -45,20 +45,20 @@ cpbs_custom(){
     if [ -z "${nodes}" ];then
         nodes=1
     fi
-    echo -e 'Specifying the number of cpus (default:32): \c'
+    echo -e 'Specifying the number of cpus (default:16): \c'
     read cpus
     if [ -z "${cpus}" ];then
-        cpus=32
+        cpus=16
     fi
-    echo -e 'Specifying the number of gpus (default:8): \c'
+    echo -e 'Specifying the number of gpus (default:1): \c'
     read gpus
     if [ -z "${gpus}" ];then
-        gpus=8
+        gpus=1
     fi
-    echo -e 'Specifying the memory - unit GB (default:100): \c'
+    echo -e 'Specifying the memory - unit GB (default:120): \c'
     read memory
     if [ -z "${memory}" ];then
-        memory=100
+        memory=120
     fi
     echo -e 'Specifying the walltime - unit hour (default:24): \c'
     read walltime
@@ -86,7 +86,7 @@ cpbs_custom(){
     ssh_node=$(pwd)/ssh_node
     delete_all=$(pwd)/delete_all
 
-    ports=("RmatePort" "-R" "JupyterPort" "-L")
+    ports=("RmatePort" "-R" "JupyterPort" "-L", "TensorboardPort" "-L")
     local ssh_info="ssh \$(hostname)"
 
     if [ -n "$ZSH_VERSION" ]; then
