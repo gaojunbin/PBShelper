@@ -86,7 +86,7 @@ cpbs_custom(){
     ssh_node=$(pwd)/ssh_node
     delete_all=$(pwd)/delete_all
 
-    ports=("RmatePort" "-R" "JupyterPort" "-L", "TensorboardPort" "-L")
+    ports=("RmatePort" "-R" "JupyterPort" "-L" "TensorboardPort" "-L")
     local ssh_info="ssh \$(hostname)"
 
     if [ -n "$ZSH_VERSION" ]; then
